@@ -6,11 +6,22 @@
 #include <unistd.h>
 
 int _printf(const char *format, ...);
-int print_char(va_list args);
-int print_string(va_list args);
-int print_int(va_list args);
-int _putchar(char c);
-int num_len(int n);
-char *int_to_str(int n);
+int print_char(va_list arg);
+int print_string(va_list arg);
+int print_percent(va_list arg);
+int print_int(va_list arg);
+int is_specifier(char c, specifier_t *spec);
+int recursive_print(int n);
 
-#endif
+/**
+ * struct specifier - Struct for format specifiers.
+ * @spec: The specifier.
+ * @f: The function associated.
+ */
+typedef struct specifier {
+    char spec;
+    int (*f)(va_list);
+} specifier_t;
+
+#endif /* MAIN_H */
+

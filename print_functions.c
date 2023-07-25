@@ -1,100 +1,83 @@
 #include "main.h"
 
 /**
- * print_string - prints a string.
- * @args: argument list containing the string to be printed.
- * Return: number of characters printed.
+ * print_char - Prints a character.
+ * @arg: va_list argument.
+ *
+ * Return: Number of characters printed.
  */
-int print_string(va_list args)
+int print_char(va_list arg)
 {
-    int i;
-    char *str = va_arg(args, char *);
-    if (!str)
-        str = "(null)";
-    for (i = 0; str[i]; i++)
-        _putchar(str[i]);
-    return (i);
-}
-
-/**
- * num_len - calculates the length of a number in digits.
- * @n: number.
- * Return: length of number.
- */
-int num_len(int n)
-{
-    int len = 0;
-
-    while (n)
-    {
-        len++;
-        n /= 10;
-    }
-    return (len);
-}
-
-/**
- * print_char - prints a character.
- * @args: argument list containing the character to be printed.
- * Return: 1 (number of characters printed).
- */
-int print_char(va_list args)
-{
-    _putchar(va_arg(args, int));
+    char c = va_arg(arg, int);
+    write(1, &c, 1);
     return (1);
 }
 
 /**
- * int_to_str - converts an integer to a string.
- * @n: number.
- * Return: pointer to the resulting string.
+ * print_string - Prints a string.
+ * @arg: va_list argument.
+ *
+ * Return: Number of characters printed.
  */
-char *int_to_str(int n)
+int print_string(va_list arg)
 {
-    int len = num_len(n);
-    char *str;
-    int negative = (n < 0) ? 1 : 0;
+    int i;
+    char *str = va_arg(arg, char *);
 
-    n = (n < 0) ? -n : n;
-    len += negative;
-
-    str = malloc(len + 1);
     if (!str)
-        return (NULL);
-    str[len] = '\0';
-
-    while (len--)
-    {
-        str[len] = (n % 10) + '0';
-        n /= 10;
-    }
-
-    if (negative)
-        str[0] = '-'; 
-
-    return (str);
-
+        str = "(null)";
+    for (i = 0; str[i]; i++)
+        write(1, &str[i], 1);
+    return (i);
 }
 
 /**
- * print_int - prints an integer as a string.
- * @args: argument list containing the integer to be printed.
- * Return: number of digits printed.
+ * print_percent - Prints a percent sign.
+ * @arg: va_list argument (unused).
+ *
+ * Return: Number of characters printed.
  */
-int print_int(va_list args)
+int print_percent(va_list arg)
 {
-    int n = va_arg(args, int);
-    char *str = int_to_str(n);
-    int len;
+    (void)arg; /* arg is unused */
+    write(1, "%", 1);
+    return (1);
+}
 
-    if (!str)
-        return (0);
+/**
+ * print_int - Prints an integer.
+ * @arg: va_list argument.
+ *
+ * Return: Number of characters printed.
+ */
+int print_int(va_list arg)
+{
+    int n = va_arg(arg, int);
+    int count = 0;
 
-    for (len = 0; str[len]; len++)
-        _putchar(str[len]);
+    if (n < 0)
+    {
+        write(1, "-", 1);
+        count++;
+        n = -n;
+    }
+    count += recursive_print(n);
+    return (count);
+}
 
-    free(str);
+/**
+ * recursive_print - Prints an integer recursively.
+ * @n: Integer.
+ *
+ * Return: Number of characters printed.
+ */
+int recursive_print(int n)
+{
+    int count = 0;
 
-    return (len);
+    if (n / 10)
+        count += recursive_print(n / 10);
+    write(1, (char[]) {n % 10 + '0'}, 1);
+    return (count + 1);
 }
 
