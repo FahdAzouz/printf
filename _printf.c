@@ -10,10 +10,11 @@ int _printf(const char *format, ...)
 {
     int count = 0;
     va_list args;
+    int i;
 
     va_start(args, format);
 
-    for (int i = 0; format && format[i]; i++)
+    for (i = 0; format && format[i]; i++)
     {
         if ((format[i + 1] == 'c' || format[i + 1] == 's' || format[i + 1] == 'd' || format[i + 1] == 'i') && format[i] == '%')
         {

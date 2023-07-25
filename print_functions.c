@@ -55,8 +55,8 @@ char *int_to_str(int n)
     char *str;
     int negative = (n < 0) ? 1 : 0;
 
-    n = (n < 0) ? -n : n; // Work with positive equivalent for simplicity
-    len += negative; // Add space for negative sign if negative
+    n = (n < 0) ? -n : n;
+    len += negative;
 
     str = malloc(len + 1);
     if (!str)
@@ -88,12 +88,12 @@ int print_int(va_list args)
     int len;
 
     if (!str)
-        return (0); // Failed to convert int to string
+        return (0);
 
     for (len = 0; str[len]; len++)
         _putchar(str[len]);
 
-    free(str); // Remember to free the dynamically allocated string
+    free(str);
 
     return (len);
 }
